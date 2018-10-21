@@ -2,7 +2,7 @@
 #include <fstream>
 #include <vector>
 
-const WCHAR appName[] = L"Dance2";
+const WCHAR appName[] = L"Dance";
 int g_width, g_height;
 int g_frameTime;
 HWND g_mainWindow;

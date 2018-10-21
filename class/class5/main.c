@@ -54,7 +54,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 	PAINTSTRUCT ps;
 	RECT rect;
 	HBITMAP hbmp;
-	BITMAP bmp;
+	//BITMAP bmp;
 	HDC hmem;
 
 	switch (iMsg)

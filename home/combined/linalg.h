@@ -4,6 +4,8 @@
 
 namespace linalg
 {
+constexpr double PI = 3.1415926535897932;
+
 	typedef unsigned int uint;
 
 	template <typename T, uint N>

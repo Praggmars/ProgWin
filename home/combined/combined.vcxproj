@@ -19,14 +19,30 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="appbase.cpp" />
+    <ClCompile Include="danceapp.cpp" />
+    <ClCompile Include="fractalapp.cpp" />
+    <ClCompile Include="function.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="multableapp.cpp" />
+    <ClCompile Include="sandpileapp.cpp" />
+    <ClCompile Include="spheresapp.cpp" />
+    <ClCompile Include="strf_stringfunction.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="appbase.h" />
+    <ClInclude Include="danceapp.h" />
+    <ClInclude Include="fractalapp.h" />
+    <ClInclude Include="function.h" />
     <ClInclude Include="linalg.h" />
+    <ClInclude Include="multableapp.h" />
+    <ClInclude Include="sandpileapp.h" />
+    <ClInclude Include="spheresapp.h" />
+    <ClInclude Include="strf_stringfunction.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{4FB477D4-82C8-49A5-865C-82646B5B0BE4}</ProjectGuid>
+    <ProjectGuid>{344BC59D-0C49-45D2-9EF3-6AF47A1D9FD3}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>ora1</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
@@ -107,6 +123,8 @@
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
+      <EmbedManagedResourceFile>
+      </EmbedManagedResourceFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -120,6 +138,8 @@
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
+      <EmbedManagedResourceFile>
+      </EmbedManagedResourceFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -137,6 +157,8 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
+      <EmbedManagedResourceFile>
+      </EmbedManagedResourceFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -154,6 +176,8 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
+      <EmbedManagedResourceFile>
+      </EmbedManagedResourceFile>
     </Link>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

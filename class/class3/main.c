@@ -96,7 +96,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT iMsg, WPARAM wParam, LPARAM lParam)
 		for (n = 0; n < rect.right / 3; n++)
 		{
 			s[n].x = n + rect.right / 3;
-			s[n].y = (-sin(n * 3.141593 * 2 / rect.right * 3) + 1) * rect.bottom / 6 + rect.bottom / 3;
+			s[n].y = (-(LONG)sin(n * 3.141593 * 2 / rect.right * 3) + 1) * rect.bottom / 6 + rect.bottom / 3;
 		}
 		Polyline(hdc, s, rect.right / 3);
 		free(s);
