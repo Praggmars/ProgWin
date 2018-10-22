@@ -51,6 +51,9 @@
     <ClCompile Include="juliaapp.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="newtonapp.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="appbase.h">
@@ -87,6 +90,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="juliaapp.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="newtonapp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

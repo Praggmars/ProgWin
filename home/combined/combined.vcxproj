@@ -28,6 +28,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mandelbrotapp.cpp" />
     <ClCompile Include="multableapp.cpp" />
+    <ClCompile Include="newtonapp.cpp" />
     <ClCompile Include="sandpileapp.cpp" />
     <ClCompile Include="spheresapp.cpp" />
     <ClCompile Include="strf_stringfunction.cpp" />
@@ -42,6 +43,7 @@
     <ClInclude Include="linalg.h" />
     <ClInclude Include="mandelbrotapp.h" />
     <ClInclude Include="multableapp.h" />
+    <ClInclude Include="newtonapp.h" />
     <ClInclude Include="sandpileapp.h" />
     <ClInclude Include="spheresapp.h" />
     <ClInclude Include="strf_stringfunction.h" />

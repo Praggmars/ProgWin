@@ -7,6 +7,7 @@
 #include "gameoflife.h"
 #include "mandelbrotapp.h"
 #include "juliaapp.h"
+#include "newtonapp.h"
 #include <ctime>
 
 #define ID_HELP 100
@@ -19,6 +20,7 @@
 #define ID_GAMEOFLIFEAPP 107
 #define ID_MANDELBROTAPP 108
 #define ID_JULIAAPP 109
+#define ID_NEWTONAPP 110
 
 AppBase *g_app;
 
@@ -84,6 +86,10 @@ void StartApp(HWND hwnd, int id)
 	case ID_JULIAAPP:
 		SafeDeleteApp();
 		g_app = new jul::JuliaApp(hwnd);
+		break;
+	case ID_NEWTONAPP:
+		SafeDeleteApp();
+		g_app = new ntn::NewtonApp(hwnd);
 		break;
 	}
 }
@@ -164,6 +170,7 @@ HMENU CreateAppMenu()
 	AppendMenu(hmenu, MF_STRING, ID_GAMEOFLIFEAPP, L"GameOfLife");
 	AppendMenu(hmenu, MF_STRING, ID_MANDELBROTAPP, L"Mandelbrot");
 	AppendMenu(hmenu, MF_STRING, ID_JULIAAPP, L"Julia");
+	AppendMenu(hmenu, MF_STRING, ID_NEWTONAPP, L"Newton");
 	AppendMenu(hmenu, MF_STRING, ID_HELP, L"Help");
 	return hmenu;
 }
