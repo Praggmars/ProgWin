@@ -4,7 +4,10 @@
 #include "sandpileapp.h"
 #include "spheresapp.h"
 #include "function.h"
-#include <memory>
+#include "gameoflife.h"
+#include "mandelbrotapp.h"
+#include "juliaapp.h"
+#include <ctime>
 
 #define ID_DANCEAPP 101
 #define ID_FRACTALAPP 102
@@ -12,6 +15,9 @@
 #define ID_SANDPILEAPP 104
 #define ID_SPHERESAPP 105
 #define ID_FUNCTIONAPP 106
+#define ID_GAMEOFLIFEAPP 107
+#define ID_MANDELBROTAPP 108
+#define ID_JULIAAPP 109
 
 AppBase *g_app;
 
@@ -52,6 +58,18 @@ void StartApp(HWND hwnd, int id)
 		SafeDeleteApp();
 		g_app = new fnc::FunctionApp(hwnd);
 		break;
+	case ID_GAMEOFLIFEAPP:
+		SafeDeleteApp();
+		g_app = new gof::GameOfLifeApp(hwnd);
+		break;
+	case ID_MANDELBROTAPP:
+		SafeDeleteApp();
+		g_app = new mdb::MandelbrotApp(hwnd);
+		break;
+	case ID_JULIAAPP:
+		SafeDeleteApp();
+		g_app = new jul::JuliaApp(hwnd);
+		break;
 	}
 }
 
@@ -78,6 +96,8 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR szCMLin
 	MSG msg;
 	RECT rect;
 
+	srand((unsigned int)time(NULL));
+
 	wc.style = CS_HREDRAW | CS_VREDRAW;
 	wc.lpfnWndProc = WndProc;
 	wc.cbClsExtra = 0;
@@ -97,6 +117,9 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR szCMLin
 	AppendMenu(hmenu, MF_STRING, ID_SANDPILEAPP, L"Sandpile");
 	AppendMenu(hmenu, MF_STRING, ID_SPHERESAPP, L"Shperes");
 	AppendMenu(hmenu, MF_STRING, ID_FUNCTIONAPP, L"Function");
+	AppendMenu(hmenu, MF_STRING, ID_GAMEOFLIFEAPP, L"GameOfLife");
+	AppendMenu(hmenu, MF_STRING, ID_MANDELBROTAPP, L"Mandelbrot");
+	AppendMenu(hmenu, MF_STRING, ID_JULIAAPP, L"Julia");
 
 	g_app = nullptr;
 	rect.left = 0;

@@ -34,9 +34,12 @@ namespace dnc
 	}
 	void DanceApp::DeleteScreen()
 	{
-		delete[] * m_screen;
-		delete[] m_screen;
-		m_screen = nullptr;
+		if (m_screen)
+		{
+			delete[] * m_screen;
+			delete[] m_screen;
+			m_screen = nullptr;
+		}
 	}
 	void DanceApp::DrawFrame()
 	{

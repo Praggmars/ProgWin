@@ -3,26 +3,26 @@
 #include "appbase.h"
 #include <array>
 
-namespace spl
+namespace gof
 {
-	constexpr int GRID_SIZE = 31;
-	constexpr int STARTING_GRAIN = 1500;
-
-	class SandPileApp :public AppBase
+	class GameOfLifeApp :public AppBase
 	{
-		std::array<std::array<int, GRID_SIZE>, GRID_SIZE> m_grid[2];
+		std::array<std::array<bool, 36>, 64> m_grid[2];
+		HBRUSH m_deadColor;
+		HBRUSH m_aliveColor;
 		int m_currentGrid;
-		std::array<HBRUSH, 5> m_colors;
+		double m_rate;
 
 	private:
 		inline size_t W() { return m_grid[0].size(); }
 		inline size_t H() { return m_grid[0][0].size(); }
-		bool Topple();
+		void Init();
+		void Update();
 		void Paint();
 
 	public:
-		SandPileApp(HWND hwnd);
-		virtual ~SandPileApp();
+		GameOfLifeApp(HWND hwnd);
+		virtual ~GameOfLifeApp();
 		virtual void MessageHandler(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) override;
 	};
 }
