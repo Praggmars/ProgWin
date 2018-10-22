@@ -91,4 +91,8 @@ namespace sph
 			break;
 		}
 	}
+	LPCWSTR SpheresApp::HelpDialogText()
+	{
+		return L"Drawing lines with changing x and y coordinates";
+	}
 }

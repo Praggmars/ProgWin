@@ -9,6 +9,7 @@
 #include "juliaapp.h"
 #include <ctime>
 
+#define ID_HELP 100
 #define ID_DANCEAPP 101
 #define ID_FRACTALAPP 102
 #define ID_MULTABLEAPP 103
@@ -30,10 +31,24 @@ void SafeDeleteApp()
 	}
 }
 
+void ShowHelpDialog(HWND hwnd)
+{
+	RECT rect;
+	GetWindowRect(hwnd, &rect);
+	HWND dialogWnd = CreateWindowEx(WS_EX_OVERLAPPEDWINDOW, L"DialogBox", L"Help",
+		WS_OVERLAPPEDWINDOW&~(WS_MAXIMIZEBOX | WS_MINIMIZEBOX | WS_THICKFRAME),
+		rect.left + 50, rect.top + 50, 400, 150, hwnd, NULL, GetModuleHandle(NULL), NULL);
+	ShowWindow(dialogWnd, SW_SHOW);
+	MessageBeep(MB_OK);
+}
+
 void StartApp(HWND hwnd, int id)
 {
 	switch (id)
 	{
+	case ID_HELP:
+		ShowHelpDialog(hwnd);
+		break;
 	case ID_DANCEAPP:
 		SafeDeleteApp();
 		g_app = new dnc::DanceApp(hwnd);
@@ -89,15 +104,9 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 	return DefWindowProc(hwnd, msg, wparam, lparam);
 }
 
-int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR szCMLine, int iCmdShow)
+void RegisterWindow(HINSTANCE hInstance)
 {
-	WNDCLASS wc;
-	CONST WCHAR title[] = L"AllApp";
-	MSG msg;
-	RECT rect;
-
-	srand((unsigned int)time(NULL));
-
+	WNDCLASS wc = {};
 	wc.style = CS_HREDRAW | CS_VREDRAW;
 	wc.lpfnWndProc = WndProc;
 	wc.cbClsExtra = 0;
@@ -107,9 +116,44 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR szCMLin
 	wc.hCursor = LoadCursor(NULL, IDC_ARROW);
 	wc.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
 	wc.lpszMenuName = NULL;
-	wc.lpszClassName = title;
+	wc.lpszClassName = L"CombinedApp";
 	RegisterClass(&wc);
+}
 
+LRESULT CALLBACK DlgProc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
+{
+	PAINTSTRUCT ps;
+	HDC hdc;
+	RECT rect;
+	switch (msg)
+	{
+	case WM_PAINT:
+		hdc = BeginPaint(hwnd, &ps);
+		GetClientRect(hwnd, &rect);
+		rect.top += 10;
+		DrawText(hdc, g_app ? g_app->HelpDialogText() : L"Select a program to run", -1, &rect, DT_CENTER | DT_VCENTER);
+		EndPaint(hwnd, &ps);
+		return 0;
+	case WM_CLOSE:
+		DestroyWindow(hwnd);
+		return 0;
+	}
+	return DefWindowProc(hwnd, msg, wparam, lparam);
+}
+void RegisterDialogBox(HINSTANCE hInstance)
+{
+	WNDCLASS wc = {};
+	wc.style = CS_HREDRAW | CS_VREDRAW;
+	wc.lpfnWndProc = DlgProc;
+	wc.hInstance = hInstance;
+	wc.hCursor = LoadCursor(NULL, IDC_ARROW);
+	wc.hbrBackground = (HBRUSH)GetStockObject(WHITE_BRUSH);
+	wc.lpszClassName = L"DialogBox";
+	RegisterClass(&wc);
+}
+
+HMENU CreateAppMenu()
+{
 	HMENU hmenu = CreateMenu();
 	AppendMenu(hmenu, MF_STRING, ID_DANCEAPP, L"Dance");
 	AppendMenu(hmenu, MF_STRING, ID_FRACTALAPP, L"Fractal");
@@ -120,22 +164,36 @@ int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR szCMLin
 	AppendMenu(hmenu, MF_STRING, ID_GAMEOFLIFEAPP, L"GameOfLife");
 	AppendMenu(hmenu, MF_STRING, ID_MANDELBROTAPP, L"Mandelbrot");
 	AppendMenu(hmenu, MF_STRING, ID_JULIAAPP, L"Julia");
-
-	g_app = nullptr;
+	AppendMenu(hmenu, MF_STRING, ID_HELP, L"Help");
+	return hmenu;
+}
+void CreateAppWindow(HINSTANCE hInstance, int iCmdShow)
+{
+	RECT rect;
 	rect.left = 0;
 	rect.right = 640;
 	rect.top = 0;
 	rect.bottom = 480;
 	AdjustWindowRectEx(&rect, WS_OVERLAPPEDWINDOW, TRUE, WS_EX_OVERLAPPEDWINDOW);
-	HWND hwnd = CreateWindowExW(WS_EX_OVERLAPPEDWINDOW, title, title, WS_OVERLAPPEDWINDOW,
+	HWND hwnd = CreateWindowExW(WS_EX_OVERLAPPEDWINDOW, L"CombinedApp", L"AllApp", WS_OVERLAPPEDWINDOW,
 		(GetSystemMetrics(SM_CXSCREEN) - rect.right + rect.left) / 2,
 		(GetSystemMetrics(SM_CYSCREEN) - rect.bottom + rect.top) / 2,
-		rect.right - rect.left, rect.bottom - rect.top, NULL, hmenu, hInstance, NULL);
-
-	GetClientRect(hwnd, &rect);
+		rect.right - rect.left, rect.bottom - rect.top, NULL,
+		CreateAppMenu(), hInstance, NULL);
 	ShowWindow(hwnd, iCmdShow);
 	UpdateWindow(hwnd);
+}
 
+int WINAPI wWinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPWSTR szCMLine, int iCmdShow)
+{
+	srand((unsigned int)time(NULL));
+	g_app = nullptr;
+
+	RegisterWindow(hInstance);
+	RegisterDialogBox(hInstance);
+	CreateAppWindow(hInstance, iCmdShow);
+
+	MSG msg;
 	while (GetMessage(&msg, NULL, 0, 0))
 	{
 		TranslateMessage(&msg);

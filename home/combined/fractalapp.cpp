@@ -118,4 +118,10 @@ namespace frac
 			break;
 		}
 	}
+	LPCWSTR FractalApp::HelpDialogText()
+	{
+		return L"Drawing fractal with random points\n\
+Left click to add vertex\n\
+Right click to remove vertex";
+	}
 }

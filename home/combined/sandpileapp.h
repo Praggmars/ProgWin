@@ -24,5 +24,6 @@ namespace spl
 		SandPileApp(HWND hwnd);
 		virtual ~SandPileApp();
 		virtual void MessageHandler(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) override;
+		virtual LPCWSTR HelpDialogText() override;
 	};
 }

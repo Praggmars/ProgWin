@@ -190,7 +190,7 @@ namespace fnc
 			}
 		}
 	}
-	
+
 	FunctionApp::FunctionApp(HWND hwnd) :AppBase(hwnd)
 	{
 		m_graphSettings.DefaultSettings();
@@ -226,7 +226,7 @@ namespace fnc
 		switch (msg)
 		{
 		case WM_COMMAND:
-			Ev_Command(hwnd, wparam); 
+			Ev_Command(hwnd, wparam);
 			break;
 		case WM_PAINT:
 			Paint();
@@ -244,5 +244,13 @@ namespace fnc
 			Ev_MouseMove(hwnd, wparam, lparam);
 			break;
 		}
+	}
+	LPCWSTR FunctionApp::HelpDialogText()
+	{
+		return L"Function plotter\n\
+Type function to the textfield on the right\n\
+Grab with left button and move around the function\n\
+Scroll mouse wheel to zoom in and out\n\
+Right click to jump to [x, f(x)] coordinates";
 	}
 }

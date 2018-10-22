@@ -15,4 +15,5 @@ public:
 	AppBase(HWND hwnd);
 	virtual ~AppBase();
 	virtual void MessageHandler(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) = 0;
+	virtual LPCWSTR HelpDialogText() = 0;
 };

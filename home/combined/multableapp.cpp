@@ -72,4 +72,10 @@ namespace mtbl
 			break;
 		}
 	}
+	LPCWSTR MultableApp::HelpDialogText()
+	{
+		return L"Modulo multiplication\n\
+Move upper trackbar to set multiplier\n\
+Move lower trackbar to set modulo";
+	}
 }

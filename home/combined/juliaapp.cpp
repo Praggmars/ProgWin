@@ -46,7 +46,7 @@ namespace jul
 		DeleteObject(hmem);
 		EndPaint(m_hwnd, &ps);
 	}
-	void JuliaApp::DrawMandelbrot()
+	void JuliaApp::DrawJulia()
 	{
 		double zx, zy;
 		double tmp;
@@ -79,7 +79,7 @@ namespace jul
 		m_height = 480;
 		CreateScreen();
 
-		DrawMandelbrot();
+		DrawJulia();
 		SetWindowSizeTitle(m_width, m_height, L"Julia");
 		InvalidateRect(hwnd, NULL, FALSE);
 	}
@@ -97,13 +97,13 @@ namespace jul
 		case WM_LBUTTONDOWN:
 			m_centerX = X(LOWORD(lparam));
 			m_centerY = Y(HIWORD(lparam));
-			DrawMandelbrot();
+			DrawJulia();
 			InvalidateRect(hwnd, NULL, FALSE);
 			break;
 		case WM_RBUTTONDOWN:
 			m_offsetX = X(LOWORD(lparam));
 			m_offsetY = Y(HIWORD(lparam));
-			DrawMandelbrot();
+			DrawJulia();
 			InvalidateRect(hwnd, NULL, FALSE);
 			break;
 		case WM_MOUSEWHEEL:
@@ -111,9 +111,16 @@ namespace jul
 				m_zoom /= 1.1;
 			else
 				m_zoom *= 1.1;
-			DrawMandelbrot();
+			DrawJulia();
 			InvalidateRect(hwnd, NULL, FALSE);
 			break;
 		}
+	}
+	LPCWSTR JuliaApp::HelpDialogText()
+	{
+		return L"Julia set\n\
+Left click to jump to new location\n\
+Right click to add offset\n\
+Scroll mouse wheel to zoom in and out";
 	}
 }

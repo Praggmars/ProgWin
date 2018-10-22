@@ -26,5 +26,6 @@ namespace frac
 		FractalApp(HWND hwnd);
 		virtual ~FractalApp();
 		virtual void MessageHandler(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) override;
+		virtual LPCWSTR HelpDialogText() override;
 	};
 }

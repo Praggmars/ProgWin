@@ -119,4 +119,11 @@ namespace mdb
 			break;
 		}
 	}
+	LPCWSTR MandelbrotApp::HelpDialogText()
+	{
+		return L"Mandelbrot set\n\
+Left click to jump to new location\n\
+Right click to add offset\n\
+Scroll mouse wheel to zoom in and out";
+	}
 }

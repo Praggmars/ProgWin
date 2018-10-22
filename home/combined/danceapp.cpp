@@ -97,4 +97,8 @@ namespace dnc
 			break;
 		}
 	}
+	LPCWSTR DanceApp::HelpDialogText()
+	{
+		return L"Dancing gif";
+	}
 }

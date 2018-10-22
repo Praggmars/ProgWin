@@ -7,6 +7,7 @@ namespace gof
 	void GameOfLifeApp::Init()
 	{
 		int rate = (int)(RAND_MAX*m_rate);
+		m_running = true;
 		m_currentGrid = 0;
 		for (size_t x = 0; x < W(); x++)
 		{
@@ -65,6 +66,19 @@ namespace gof
 		}
 		EndPaint(m_hwnd, &ps);
 	}
+	void GameOfLifeApp::SetCell(bool alive, int mx, int my)
+	{
+		RECT rect;
+		GetClientRect(m_hwnd, &rect);
+		double cellSize = min((double)rect.right / (double)W(), (double)rect.bottom / (double)H());
+		size_t xoffset = (size_t)(rect.right - cellSize * W()) / 2;
+		size_t yoffset = (size_t)(rect.bottom - cellSize * H()) / 2;
+		mx = (mx - xoffset) / (int)cellSize;
+		my = (my - yoffset) / (int)cellSize;
+		if (mx >= 0 && mx < (int)W() && my >= 0 && my < (int)H())
+			m_grid[m_currentGrid][mx][my] = alive;
+		InvalidateRect(m_hwnd, NULL, FALSE);
+	}
 	GameOfLifeApp::GameOfLifeApp(HWND hwnd) :AppBase(hwnd)
 	{
 		m_rate = 0.375;
@@ -89,9 +103,50 @@ namespace gof
 			Update();
 			InvalidateRect(hwnd, NULL, FALSE);
 			break;
+		case WM_LBUTTONDOWN:
+			SetCell(true, LOWORD(lparam), HIWORD(lparam));
+			break;
+		case WM_RBUTTONDOWN:
+			SetCell(false, LOWORD(lparam), HIWORD(lparam));
+			break;
+		case WM_MOUSEMOVE:
+			if (wparam&MK_RBUTTON)
+				SetCell(false, LOWORD(lparam), HIWORD(lparam));
+			else if (wparam&MK_LBUTTON)
+				SetCell(true, LOWORD(lparam), HIWORD(lparam));
+			break;
+		case WM_KEYDOWN:
+			switch (wparam)
+			{
+			case VK_SPACE:
+				if (m_running)
+				{
+					KillTimer(hwnd, ID_TIMER1);
+					m_running = false;
+				}
+				else
+				{
+					SetTimer(hwnd, ID_TIMER1, 100, NULL);
+					m_running = true;
+				}
+				break;
+			case 'C':
+				memset(&m_grid[m_currentGrid], false, sizeof(m_grid[m_currentGrid]));
+				InvalidateRect(m_hwnd, NULL, FALSE);
+				break;
+			}
+			break;
 		case WM_PAINT:
 			Paint();
 			break;
 		}
+	}
+	LPCWSTR GameOfLifeApp::HelpDialogText()
+	{
+		return L"Conway's Game of Life\n\
+Click and drag left button to add active cells\n\
+Click and drag right button to add inactive cells\n\
+Press spacebar to pause or resume\n\
+Press 'C' to clear grid";
 	}
 }

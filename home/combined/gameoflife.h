@@ -7,7 +7,8 @@ namespace gof
 {
 	class GameOfLifeApp :public AppBase
 	{
-		std::array<std::array<bool, 36>, 64> m_grid[2];
+		std::array<std::array<bool, 48>, 64> m_grid[2];
+		bool m_running;
 		HBRUSH m_deadColor;
 		HBRUSH m_aliveColor;
 		int m_currentGrid;
@@ -19,10 +20,12 @@ namespace gof
 		void Init();
 		void Update();
 		void Paint();
+		void SetCell(bool alive, int mx, int my);
 
 	public:
 		GameOfLifeApp(HWND hwnd);
 		virtual ~GameOfLifeApp();
 		virtual void MessageHandler(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) override;
+		virtual LPCWSTR HelpDialogText() override;
 	};
 }

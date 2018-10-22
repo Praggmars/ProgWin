@@ -30,5 +30,6 @@ namespace mdb
 		MandelbrotApp(HWND hwnd);
 		virtual ~MandelbrotApp();
 		virtual void MessageHandler(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) override;
+		virtual LPCWSTR HelpDialogText() override;
 	};
 }

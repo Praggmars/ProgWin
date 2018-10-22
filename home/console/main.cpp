@@ -2,8 +2,37 @@
 
 #include<winsock2.h>
 #include <iostream>
+#include <vector>
 
 #pragma comment(lib,"ws2_32.lib")
+
+template <typename T>
+void SendSocketFlipBytes(SOCKET& s, T& t)
+{
+	std::vector<char> data;
+	char* b = (char*)&t;
+	for (int i = sizeof(t) - 1; i >= 0; i--)
+		data.push_back(b[i]);
+	send(s, data.data(), data.size(), 0);
+}
+void SendSocketFlipBytes(SOCKET& s, void* d, size_t size)
+{
+	std::vector<char> data;
+	char* b = (char*)d;
+	for (int i = size - 1; i >= 0; i--)
+		data.push_back(b[i]);
+	send(s, data.data(), data.size(), 0);
+}
+void RecvSocketFlipBytes(SOCKET& s, void* d, size_t size)
+{
+	std::vector<char> data;
+	data.resize(size);
+	char* b = (char*)d;
+	recv(s, data.data(), size, 0);
+	for (int i = size - 1; i >= 0; i--)
+		b[i] = data[size - 1 - i];
+}
+
 
 //client
 int main()
@@ -30,16 +59,26 @@ int main()
 	}
 	std::cout << "Connected" << std::endl;
 
-	std::wstring msg = L"213";
+	std::wstring msg = L"Can I please send you this: 213?";
 	int msgLen = msg.length() * sizeof(wchar_t);
 	int fullLen = msgLen + 2 * sizeof(int);
-	send(connection, (char*)&fullLen, sizeof(int), 0);
-	send(connection, (char*)&msgLen, sizeof(int), 0);
-	send(connection, (char*)msg.data(), msgLen, 0);
-	char buffer[1000] = {};
-	recv(connection, buffer, 3, 0);
 
-	std::cout << buffer << std::endl;
+	SendSocketFlipBytes(connection, &fullLen, sizeof(int));
+	SendSocketFlipBytes(connection, &msgLen, sizeof(int));
+	for (wchar_t ch : msg)
+		SendSocketFlipBytes(connection, &ch, sizeof(ch));
+	wchar_t ch;
+	RecvSocketFlipBytes(connection, &fullLen, sizeof(fullLen));
+	RecvSocketFlipBytes(connection, &fullLen, sizeof(fullLen));
+	std::wcout << L"Incoming: " << fullLen << std::endl;
+	for (int i = 0; i < fullLen / 2; i++)
+	{
+		RecvSocketFlipBytes(connection, &ch, sizeof(ch));
+		std::wcout << ch;
+	}
+
+
+	std::cout << std::endl;
 
 	system("pause");
 	return 0;

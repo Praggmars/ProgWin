@@ -26,5 +26,6 @@ namespace sph
 		SpheresApp(HWND hwnd);
 		virtual ~SpheresApp();
 		virtual void MessageHandler(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) override;
+		virtual LPCWSTR HelpDialogText() override;
 	};
 }

@@ -96,4 +96,8 @@ namespace spl
 			break;
 		}
 	}
+	LPCWSTR SandPileApp::HelpDialogText()
+	{
+		return L"Sandpile topple simulation";
+	}
 }

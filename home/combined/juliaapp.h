@@ -24,11 +24,12 @@ namespace jul
 		void DeleteScreen();
 		COLORREF IterToColor(LONG iter);
 		void Paint();
-		void DrawMandelbrot();
+		void DrawJulia();
 
 	public:
 		JuliaApp(HWND hwnd);
 		virtual ~JuliaApp();
 		virtual void MessageHandler(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam) override;
+		virtual LPCWSTR HelpDialogText() override;
 	};
 }
