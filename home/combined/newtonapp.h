@@ -10,6 +10,7 @@ namespace ntn
 	{
 		double m_centerX;
 		double m_centerY;
+		std::complex<double> m_a;
 		double m_zoom;
 		LONG m_maxIter;
 		COLORREF **m_screen;

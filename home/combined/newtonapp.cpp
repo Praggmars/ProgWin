@@ -71,7 +71,7 @@ namespace ntn
 				std::complex<double> z(X(x), Y(y));
 				for (i = 0; i < m_maxIter; i++)
 				{
-					z -= Funct(z) / Deriv(z);
+					z -= m_a * Funct(z) / Deriv(z);
 					diff = abs(z - roots[0]);
 					if (diff < tolerance) break;
 					diff = abs(z - roots[1]);
@@ -85,6 +85,7 @@ namespace ntn
 	}
 	NewtonApp::NewtonApp(HWND hwnd) :AppBase(hwnd)
 	{
+		m_a = 1.0;
 		m_maxIter = 300;
 		m_centerX = -0.5f;
 		m_centerY = 0.0f;
@@ -114,6 +115,11 @@ namespace ntn
 			DrawNewton();
 			InvalidateRect(hwnd, NULL, FALSE);
 			break;
+		case WM_RBUTTONDOWN:
+			m_a = std::complex<double>(X(LOWORD(lparam)), Y(HIWORD(lparam)));
+			DrawNewton();
+			InvalidateRect(hwnd, NULL, FALSE);
+			break;
 		case WM_MOUSEWHEEL:
 			if (GET_WHEEL_DELTA_WPARAM(wparam) > 0)
 				m_zoom /= 1.1;
@@ -128,6 +134,7 @@ namespace ntn
 	{
 		return L"Newton fractal\n\
 Left click to jump to new location\n\
+Right click to set progresson value\n\
 Scroll mouse wheel to zoom in and out";
 	}
 }
