@@ -86,8 +86,8 @@ namespace ntn
 	NewtonApp::NewtonApp(HWND hwnd) :AppBase(hwnd)
 	{
 		m_a = 1.0;
-		m_maxIter = 300;
-		m_centerX = -0.5f;
+		m_maxIter = 100;
+		m_centerX = 0.0f;
 		m_centerY = 0.0f;
 		m_zoom = 0.005;
 		m_width = 640;

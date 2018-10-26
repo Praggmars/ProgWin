@@ -18,44 +18,13 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="appbase.cpp" />
-    <ClCompile Include="danceapp.cpp" />
-    <ClCompile Include="fractalapp.cpp" />
-    <ClCompile Include="function.cpp" />
-    <ClCompile Include="gameoflife.cpp" />
-    <ClCompile Include="juliaapp.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="mandelbrotapp.cpp" />
-    <ClCompile Include="multableapp.cpp" />
-    <ClCompile Include="newtonapp.cpp" />
-    <ClCompile Include="rippleapp.cpp" />
-    <ClCompile Include="sandpileapp.cpp" />
-    <ClCompile Include="spheresapp.cpp" />
-    <ClCompile Include="strf_stringfunction.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="appbase.h" />
-    <ClInclude Include="danceapp.h" />
-    <ClInclude Include="fractalapp.h" />
-    <ClInclude Include="function.h" />
-    <ClInclude Include="gameoflife.h" />
-    <ClInclude Include="juliaapp.h" />
-    <ClInclude Include="linalg.h" />
-    <ClInclude Include="mandelbrotapp.h" />
-    <ClInclude Include="multableapp.h" />
-    <ClInclude Include="newtonapp.h" />
-    <ClInclude Include="rippleapp.h" />
-    <ClInclude Include="sandpileapp.h" />
-    <ClInclude Include="spheresapp.h" />
-    <ClInclude Include="strf_stringfunction.h" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{344BC59D-0C49-45D2-9EF3-6AF47A1D9FD3}</ProjectGuid>
+    <ProjectGuid>{0D072A73-803C-4A35-84D0-4D5DB3C87661}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>ora1</RootNamespace>
+    <RootNamespace>template</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
+    <ProjectName>class8_multiple_windows</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -105,22 +74,22 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(ProjectDir.Replace($(SolutionDir),$(SolutionDir)Bin\))</OutDir>
-    <IntDir>$(ProjectDir.Replace($(SolutionDir),$(SolutionDir)Build\))</IntDir>
+    <IntDir>$(ProjectDir.Replace($(SolutionDir),$(SolutionDir)Bin\))</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
     <OutDir>$(ProjectDir.Replace($(SolutionDir),$(SolutionDir)Bin\))</OutDir>
-    <IntDir>$(ProjectDir.Replace($(SolutionDir),$(SolutionDir)Build\))</IntDir>
+    <IntDir>$(ProjectDir.Replace($(SolutionDir),$(SolutionDir)Bin\))</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(ProjectDir.Replace($(SolutionDir),$(SolutionDir)Bin\))</OutDir>
-    <IntDir>$(ProjectDir.Replace($(SolutionDir),$(SolutionDir)Build\))</IntDir>
+    <IntDir>$(ProjectDir.Replace($(SolutionDir),$(SolutionDir)Bin\))</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
     <OutDir>$(ProjectDir.Replace($(SolutionDir),$(SolutionDir)Bin\))</OutDir>
-    <IntDir>$(ProjectDir.Replace($(SolutionDir),$(SolutionDir)Build\))</IntDir>
+    <IntDir>$(ProjectDir.Replace($(SolutionDir),$(SolutionDir)Bin\))</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -133,8 +102,6 @@
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
-      <EmbedManagedResourceFile>
-      </EmbedManagedResourceFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -148,8 +115,6 @@
     <Link>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
-      <EmbedManagedResourceFile>
-      </EmbedManagedResourceFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -167,8 +132,6 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
-      <EmbedManagedResourceFile>
-      </EmbedManagedResourceFile>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -186,10 +149,11 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <SubSystem>Windows</SubSystem>
-      <EmbedManagedResourceFile>
-      </EmbedManagedResourceFile>
     </Link>
   </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="main.c" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

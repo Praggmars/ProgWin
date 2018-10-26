@@ -31,7 +31,10 @@ namespace mdb
 		if (R < 0.0) R = 0.0; if (R > 1.0) R = 1.0;
 		if (G < 0.0) G = 0.0; if (G > 1.0) G = 1.0;
 		if (B < 0.0) B = 0.0; if (B > 1.0) B = 1.0;
-		return RGB(R * 0xff, G * 0xff, B * 0xff);
+		R *= 0xff;
+		G *= 0xff;
+		B *= 0xff;
+		return RGB(R, G, B);
 	}
 	void MandelbrotApp::Paint()
 	{

@@ -16,7 +16,7 @@ namespace dnc
 		LONG m_height;
 
 	private:
-		void LoadFile();
+		bool LoadFile();
 		void CreateScreen();
 		void DeleteScreen();
 		void DrawFrame();

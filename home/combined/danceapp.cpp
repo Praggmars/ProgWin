@@ -5,12 +5,16 @@
 
 namespace dnc
 {
-	void DanceApp::LoadFile()
+	bool DanceApp::LoadFile()
 	{
 		std::ifstream infile;
 		infile.open("dance.dat", std::ios::in | std::ios::binary);
 		if (!infile.good())
-			throw std::exception("missing file: dance.dat");
+		{
+			MessageBeep(MB_OK);
+			MessageBox(NULL, L"Missing file: dance.dat", L"File not found", MB_OK | MB_ICONERROR);
+			return false;
+		}
 		infile.read((char*)&m_frameCount, sizeof(m_frameCount));
 		infile.read((char*)&m_frameRate, sizeof(m_frameRate));
 		infile.read((char*)&m_height, sizeof(m_height));
@@ -23,6 +27,7 @@ namespace dnc
 			points.resize(wpc);
 			infile.read((char*)points.data(), sizeof(POINT)*wpc);
 		}
+		return true;
 	}
 	void DanceApp::CreateScreen()
 	{
@@ -70,11 +75,13 @@ namespace dnc
 	}
 	DanceApp::DanceApp(HWND hwnd) :AppBase(hwnd)
 	{
-		LoadFile();
-		CreateScreen();
-		SetWindowSizeTitle(m_width, m_height, L"Dance");
-		m_currentFrame = 0;
-		SetTimer(hwnd, ID_TIMER1, m_frameRate, NULL);
+		if (LoadFile())
+		{
+			CreateScreen();
+			SetWindowSizeTitle(m_width, m_height, L"Dance");
+			m_currentFrame = 0;
+			SetTimer(hwnd, ID_TIMER1, m_frameRate, NULL);
+		}
 	}
 	DanceApp::~DanceApp()
 	{

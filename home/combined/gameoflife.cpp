@@ -73,8 +73,8 @@ namespace gof
 		double cellSize = min((double)rect.right / (double)W(), (double)rect.bottom / (double)H());
 		size_t xoffset = (size_t)(rect.right - cellSize * W()) / 2;
 		size_t yoffset = (size_t)(rect.bottom - cellSize * H()) / 2;
-		mx = (mx - xoffset) / (int)cellSize;
-		my = (my - yoffset) / (int)cellSize;
+		mx = (int)((mx - xoffset) / cellSize);
+		my = (int)((my - yoffset) / cellSize);
 		if (mx >= 0 && mx < (int)W() && my >= 0 && my < (int)H())
 			m_grid[m_currentGrid][mx][my] = alive;
 		InvalidateRect(m_hwnd, NULL, FALSE);

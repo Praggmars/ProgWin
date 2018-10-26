@@ -8,6 +8,7 @@
 #include "mandelbrotapp.h"
 #include "juliaapp.h"
 #include "newtonapp.h"
+#include "rippleapp.h"
 #include <ctime>
 
 #define ID_HELP 100
@@ -21,6 +22,7 @@
 #define ID_MANDELBROTAPP 108
 #define ID_JULIAAPP 109
 #define ID_NEWTONAPP 110
+#define ID_RIPPLEAPP 111
 
 AppBase *g_app;
 
@@ -90,6 +92,10 @@ void StartApp(HWND hwnd, int id)
 	case ID_NEWTONAPP:
 		SafeDeleteApp();
 		g_app = new ntn::NewtonApp(hwnd);
+		break;
+	case ID_RIPPLEAPP:
+		SafeDeleteApp();
+		g_app = new rpl::RippleApp(hwnd);
 		break;
 	}
 }
@@ -161,16 +167,19 @@ void RegisterDialogBox(HINSTANCE hInstance)
 HMENU CreateAppMenu()
 {
 	HMENU hmenu = CreateMenu();
-	AppendMenu(hmenu, MF_STRING, ID_DANCEAPP, L"Dance");
-	AppendMenu(hmenu, MF_STRING, ID_FRACTALAPP, L"Fractal");
-	AppendMenu(hmenu, MF_STRING, ID_MULTABLEAPP, L"MulTable");
-	AppendMenu(hmenu, MF_STRING, ID_SANDPILEAPP, L"Sandpile");
-	AppendMenu(hmenu, MF_STRING, ID_SPHERESAPP, L"Shperes");
-	AppendMenu(hmenu, MF_STRING, ID_FUNCTIONAPP, L"Function");
-	AppendMenu(hmenu, MF_STRING, ID_GAMEOFLIFEAPP, L"GameOfLife");
-	AppendMenu(hmenu, MF_STRING, ID_MANDELBROTAPP, L"Mandelbrot");
-	AppendMenu(hmenu, MF_STRING, ID_JULIAAPP, L"Julia");
-	AppendMenu(hmenu, MF_STRING, ID_NEWTONAPP, L"Newton");
+	HMENU programMenu = CreateMenu();
+	AppendMenu(programMenu, MF_STRING, ID_DANCEAPP, L"Dance");
+	AppendMenu(programMenu, MF_STRING, ID_FRACTALAPP, L"Fractal");
+	AppendMenu(programMenu, MF_STRING, ID_MULTABLEAPP, L"MulTable");
+	AppendMenu(programMenu, MF_STRING, ID_SANDPILEAPP, L"Sandpile");
+	AppendMenu(programMenu, MF_STRING, ID_SPHERESAPP, L"Shperes");
+	AppendMenu(programMenu, MF_STRING, ID_FUNCTIONAPP, L"Function");
+	AppendMenu(programMenu, MF_STRING, ID_GAMEOFLIFEAPP, L"GameOfLife");
+	AppendMenu(programMenu, MF_STRING, ID_RIPPLEAPP, L"Ripple");
+	AppendMenu(programMenu, MF_STRING, ID_MANDELBROTAPP, L"Mandelbrot");
+	AppendMenu(programMenu, MF_STRING, ID_JULIAAPP, L"Julia");
+	AppendMenu(programMenu, MF_STRING, ID_NEWTONAPP, L"Newton");
+	AppendMenu(hmenu, MF_POPUP, (UINT_PTR)programMenu, L"Programs");
 	AppendMenu(hmenu, MF_STRING, ID_HELP, L"Help");
 	return hmenu;
 }
