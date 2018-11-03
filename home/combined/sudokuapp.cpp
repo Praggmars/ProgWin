@@ -55,14 +55,13 @@ namespace sdk
 				memcpy(m_excluded, other.m_excluded, sizeof(SudokuCell::m_excluded));
 			}
 			bool GiveValue(int value) {
-				if (value > 0 && value < 10) {
-					if (m_row->included[value - 1] || m_col->included[value - 1] || m_squ->included[value - 1]) {
+				if (value > 0 && value < 10)
+				{
+					if (m_row->included[value - 1] || m_col->included[value - 1] || m_squ->included[value - 1])
 						return false;
-					}
 					m_value = value;
-					for (int i = 0; i < 9; i++) {
+					for (int i = 0; i < 9; i++)
 						m_excluded[i] = (i != value - 1);
-					}
 					m_excludedCount = 8;
 					m_row->included[value - 1] = true;
 					m_col->included[value - 1] = true;
@@ -71,20 +70,23 @@ namespace sdk
 				}
 				return true;
 			}
-			bool ExcludeValue(int value) {
+			bool ExcludeValue(int value)
+			{
 				if (value == 0)
 					return true;
 				if (m_value == value)
 					return false;
-				if (!m_excluded[value - 1]) {
+				if (!m_excluded[value - 1])
+				{
 					m_excluded[value - 1] = true;
 					m_excludedCount++;
-					if (m_excludedCount == 8) {
-						for (int i = 0; i < 9; i++) {
+					if (m_excludedCount == 8)
+					{
+						for (int i = 0; i < 9; i++)
+						{
 							if (!m_excluded[i]) {
-								if (m_row->included[i] || m_col->included[i] || m_squ->included[i]) {
+								if (m_row->included[i] || m_col->included[i] || m_squ->included[i])
 									return false;
-								}
 								m_value = i + 1;
 								m_row->included[i] = true;
 								m_col->included[i] = true;
@@ -99,7 +101,8 @@ namespace sdk
 			}
 			bool Check()
 			{
-				for (int i = 0; i < 9; i++) {
+				for (int i = 0; i < 9; i++)
+				{
 					if (!ExcludeValue(m_row->cells[i]->m_value))
 						return false;
 					if (Filled())
@@ -154,7 +157,8 @@ namespace sdk
 			InitParts();
 			for (int i = 0; i < 81; i++)
 				m_grid[i].CopyDataFrom(other.m_grid[i]);
-			for (int i = 0; i < 9; i++) {
+			for (int i = 0; i < 9; i++)
+			{
 				m_rows[i].CopyDataFrom(other.m_rows[i]);
 				m_cols[i].CopyDataFrom(other.m_cols[i]);
 				m_squs[i].CopyDataFrom(other.m_squs[i]);
@@ -174,7 +178,8 @@ namespace sdk
 		{
 			for (int i = 0; i < 81; i++)
 				m_grid[i].CopyDataFrom(other.m_grid[i]);
-			for (int i = 0; i < 9; i++) {
+			for (int i = 0; i < 9; i++)
+			{
 				m_rows[i].CopyDataFrom(other.m_rows[i]);
 				m_cols[i].CopyDataFrom(other.m_cols[i]);
 				m_squs[i].CopyDataFrom(other.m_squs[i]);
@@ -479,7 +484,9 @@ namespace sdk
 		DeleteObject(m_whitePenThin);
 		DeleteObject(m_whitePenThick);
 		DestroyWindow(m_solveButton);
+		DestroyWindow(m_restartButton);
 		DestroyWindow(m_clearButton);
+		DestroyWindow(m_createButton);
 	}
 	void SudokuApp::MessageHandler(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 	{
