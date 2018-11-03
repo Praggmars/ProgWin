@@ -115,14 +115,14 @@ namespace strf
 			std::vector<Value*> m_scanResult;
 			ValueType m_lastScanned;
 			std::exception m_error;
+			bool m_hasX;
+			bool m_hasY;
 
 		private:
 			void ManageOperator(wchar_t ch);
 			void ManageNumber(wchar_t ch);
 			void ManageBraket(wchar_t ch);
 			void ManageOther(wchar_t ch);
-			FunctionCreator(Function& f, std::wstring input);
-			Value* CreateFunction();
 			void ScanInput();
 			void SetOperator(std::vector<Value*>& out, Operator_Pre* op);
 			void SetOperator(std::vector<Value*>& out, Operator_Post* op);
@@ -130,12 +130,16 @@ namespace strf
 			void MakeOperationGraph();
 
 		public:
-			static Value* CreateFunction(Function& f, std::wstring input);
+			FunctionCreator(Function& f, std::wstring input);
+			Value* CreateFunction();
+			int VarCount();
 		};
 	private:
 		std::map<std::wstring, std::function<Value*()>> m_words;
 		Value *m_function;
 		double m_x;
+		double m_y;
+		int m_varcount;
 
 	private:
 		void InitWords();
@@ -145,6 +149,8 @@ namespace strf
 		Function();
 		~Function();
 		bool LoadFunction(std::wstring input);
+		inline int VarCount() { return m_varcount; }
 		double operator()(double x);
+		double operator()(double x, double y);
 	};
 }

@@ -141,6 +141,7 @@ namespace strf
 	void Function::InitWords()
 	{
 		m_words[L"x"] = [this]()->Value* {return new Variable(m_x); };
+		m_words[L"y"] = [this]()->Value* {return new Variable(m_y); };
 		m_words[L"e"] = []()->Value* {return new Number(2.718281828459045); };
 		m_words[L"pi"] = []()->Value* {return new Number(3.141592653589793); };
 		m_words[L"phi"] = []()->Value* {return new Number(1.618033988749895); };
@@ -208,7 +209,9 @@ namespace strf
 	bool Function::LoadFunction(std::wstring input)
 	{
 		DeleteFunction();
-		m_function = FunctionCreator::CreateFunction(*this, input);
+		FunctionCreator fc(*this, input);
+		m_function = fc.CreateFunction();
+		m_varcount = fc.VarCount();
 		return  m_function != nullptr;
 	}
 	double Function::operator()(double x)
@@ -216,6 +219,17 @@ namespace strf
 		if (m_function)
 		{
 			m_x = x;
+			m_y = x;
+			return m_function->getValue();
+		}
+		return NAN;
+	}
+	double Function::operator()(double x, double y)
+	{
+		if (m_function)
+		{
+			m_x = x;
+			m_y = y;
 			return m_function->getValue();
 		}
 		return NAN;
@@ -297,7 +311,10 @@ namespace strf
 			expression += ch;
 		} while (braketCounter > 0);
 		expression.pop_back();
-		Value *braket = CreateFunction(m_function, expression);
+		FunctionCreator fc(m_function, expression);
+		Value *braket = fc.CreateFunction();
+		m_hasX |= fc.m_hasX;
+		m_hasY |= fc.m_hasY;
 		if (braket == nullptr)
 			throw m_error;
 		m_scanResult.push_back(new Braket(braket));
@@ -421,14 +438,18 @@ namespace strf
 		return m_scanResult[0];
 	}
 
+	int Function::FunctionCreator::VarCount()
+	{
+		int count = 0;
+		if (m_hasX) count++;
+		if (m_hasY) count++;
+		return count;
+	}
+
 	Function::FunctionCreator::FunctionCreator(Function& f, std::wstring input) :m_function(f)
 	{
 		m_input = input;
 		m_lastScanned = VT_NONE;
-	}
-	Value* Function::FunctionCreator::CreateFunction(Function& f, std::wstring input)
-	{
-		return FunctionCreator(f, input).CreateFunction();
 	}
 
 #pragma endregion

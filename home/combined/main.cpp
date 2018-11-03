@@ -3,12 +3,13 @@
 #include "multableapp.h"
 #include "sandpileapp.h"
 #include "spheresapp.h"
-#include "function.h"
-#include "gameoflife.h"
+#include "functionapp.h"
+#include "gameoflifeapp.h"
 #include "mandelbrotapp.h"
 #include "juliaapp.h"
 #include "newtonapp.h"
 #include "rippleapp.h"
+#include "sudokuapp.h"
 #include <ctime>
 
 #define ID_HELP 100
@@ -23,6 +24,7 @@
 #define ID_JULIAAPP 109
 #define ID_NEWTONAPP 110
 #define ID_RIPPLEAPP 111
+#define ID_SUDOKUAPP 112
 
 AppBase *g_app;
 
@@ -96,6 +98,10 @@ void StartApp(HWND hwnd, int id)
 	case ID_RIPPLEAPP:
 		SafeDeleteApp();
 		g_app = new rpl::RippleApp(hwnd);
+		break;
+	case ID_SUDOKUAPP:
+		SafeDeleteApp();
+		g_app = new sdk::SudokuApp(hwnd);
 		break;
 	}
 }
@@ -179,6 +185,7 @@ HMENU CreateAppMenu()
 	AppendMenu(programMenu, MF_STRING, ID_MANDELBROTAPP, L"Mandelbrot");
 	AppendMenu(programMenu, MF_STRING, ID_JULIAAPP, L"Julia");
 	AppendMenu(programMenu, MF_STRING, ID_NEWTONAPP, L"Newton");
+	AppendMenu(programMenu, MF_STRING, ID_SUDOKUAPP, L"Sudoku");
 	AppendMenu(hmenu, MF_POPUP, (UINT_PTR)programMenu, L"Programs");
 	AppendMenu(hmenu, MF_STRING, ID_HELP, L"Help");
 	return hmenu;

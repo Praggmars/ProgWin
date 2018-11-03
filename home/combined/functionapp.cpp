@@ -1,4 +1,4 @@
-#include "function.h"
+#include "functionapp.h"
 
 #define ID_FUNCTION_INPUT 1
 #define ID_RESET_BUTTON 2
@@ -109,12 +109,6 @@ namespace fnc
 		m_graphSettings.width = max(rect.right, 1);
 		m_graphSettings.height = max(rect.bottom, 1);
 
-		MoveWindow(m_xPosText, (int)m_graphSettings.width + 10, 40, 220, 22, TRUE);
-		MoveWindow(m_yPosText, (int)m_graphSettings.width + 10, 64, 220, 22, TRUE);
-		MoveWindow(m_fxPosText, (int)m_graphSettings.width + 10, 88, 220, 22, TRUE);
-		MoveWindow(m_functionInput, (int)m_graphSettings.width + 10, 130, 220, 24, TRUE);
-		MoveWindow(m_resetButton, (int)m_graphSettings.width + 10, 160, 220, 24, TRUE);
-
 		HDC hdc = BeginPaint(m_hwnd, &ps);
 		HBRUSH brush = CreateSolidBrush(0x1f1f1f);
 		FillRect(hdc, &rect, brush);
@@ -191,24 +185,38 @@ namespace fnc
 		}
 	}
 
+	void FunctionApp::Ev_Size(HWND hwnd)
+	{
+		MoveWindow(m_xPosText, (int)m_graphSettings.width + 10, 40, 220, 22, FALSE);
+		MoveWindow(m_yPosText, (int)m_graphSettings.width + 10, 64, 220, 22, FALSE);
+		MoveWindow(m_fxPosText, (int)m_graphSettings.width + 10, 88, 220, 22, FALSE);
+		MoveWindow(m_functionInput, (int)m_graphSettings.width + 10, 130, 220, 24, FALSE);
+		MoveWindow(m_resetButton, (int)m_graphSettings.width + 10, 160, 220, 24, FALSE);
+	}
+
 	FunctionApp::FunctionApp(HWND hwnd) :AppBase(hwnd)
 	{
 		m_graphSettings.DefaultSettings();
+		RECT rect;
+		GetClientRect(m_hwnd, &rect);
+		rect.right = max(rect.right - 240, 1);
+		m_graphSettings.width = max(rect.right, 1);
+		m_graphSettings.height = max(rect.bottom, 1);
 
 		m_functionInput = CreateWindowEx(WS_EX_CLIENTEDGE, L"edit", L"", WS_VISIBLE | WS_CHILD | WS_BORDER | ES_AUTOHSCROLL,
-			10, 130, 240, 24, hwnd, (HMENU)ID_FUNCTION_INPUT, GetModuleHandle(NULL), NULL);
+			(int)m_graphSettings.width + 10, 130, 220, 24, hwnd, (HMENU)ID_FUNCTION_INPUT, GetModuleHandle(NULL), NULL);
 
 		m_resetButton = CreateWindowEx(WS_EX_CLIENTEDGE, L"button", L"Reset", WS_VISIBLE | WS_CHILD | WS_BORDER,
-			10, 160, 240, 24, hwnd, (HMENU)ID_RESET_BUTTON, GetModuleHandle(NULL), NULL);
+			(int)m_graphSettings.width + 10, 160, 220, 24, hwnd, (HMENU)ID_RESET_BUTTON, GetModuleHandle(NULL), NULL);
 
 		m_xPosText = CreateWindowEx(WS_EX_CLIENTEDGE, L"static", L"0", WS_VISIBLE | WS_CHILD,
-			10, 40, 240, 22, hwnd, NULL, GetModuleHandle(NULL), NULL);
+			(int)m_graphSettings.width + 10, 40, 220, 22, hwnd, NULL, GetModuleHandle(NULL), NULL);
 
 		m_yPosText = CreateWindowEx(WS_EX_CLIENTEDGE, L"static", L"0", WS_VISIBLE | WS_CHILD,
-			10, 64, 240, 22, hwnd, NULL, GetModuleHandle(NULL), NULL);
+			(int)m_graphSettings.width + 10, 64, 220, 22, hwnd, NULL, GetModuleHandle(NULL), NULL);
 
 		m_fxPosText = CreateWindowEx(WS_EX_CLIENTEDGE, L"static", L"0", WS_VISIBLE | WS_CHILD,
-			10, 88, 240, 22, hwnd, NULL, GetModuleHandle(NULL), NULL);
+			(int)m_graphSettings.width + 10, 88, 220, 22, hwnd, NULL, GetModuleHandle(NULL), NULL);
 
 		SetWindowTitle(L"Function");
 		InvalidateRect(hwnd, NULL, TRUE);
@@ -242,6 +250,9 @@ namespace fnc
 			break;
 		case WM_MOUSEMOVE:
 			Ev_MouseMove(hwnd, wparam, lparam);
+			break;
+		case WM_SIZE:
+			Ev_Size(hwnd);
 			break;
 		}
 	}

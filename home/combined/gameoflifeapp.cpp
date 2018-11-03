@@ -1,4 +1,4 @@
-#include "gameoflife.h"
+#include "gameoflifeapp.h"
 
 #define ID_TIMER1 1
 

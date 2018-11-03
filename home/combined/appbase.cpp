@@ -10,15 +10,17 @@ void AppBase::SetWindowTitle(const WCHAR title[])
 
 void AppBase::SetWindowSizeTitle(int w, int h, const WCHAR title[])
 {
-	RECT rect;
-	rect.left = 0;
-	rect.right = w;
-	rect.top = 0;
-	rect.bottom = h;
-	AdjustWindowRectEx(&rect, WS_OVERLAPPEDWINDOW, TRUE, WS_EX_OVERLAPPEDWINDOW);
-	MoveWindow(m_hwnd,
-		(GetSystemMetrics(SM_CXSCREEN) - rect.right + rect.left) / 2,
-		(GetSystemMetrics(SM_CYSCREEN) - rect.bottom + rect.top) / 2,
-		rect.right - rect.left, rect.bottom - rect.top, TRUE);
+	RECT clientRect;
+	clientRect.left = 0;
+	clientRect.right = w;
+	clientRect.top = 0;
+	clientRect.bottom = h;
+	AdjustWindowRectEx(&clientRect, WS_OVERLAPPEDWINDOW, TRUE, WS_EX_OVERLAPPEDWINDOW);
+	RECT windowRect;
+	GetWindowRect(m_hwnd, &windowRect);
+	windowRect.right = windowRect.left + clientRect.right - clientRect.left;
+	windowRect.bottom = windowRect.top + clientRect.bottom - clientRect.top;
+	MoveWindow(m_hwnd, windowRect.left, windowRect.top,
+		windowRect.right - windowRect.left, windowRect.bottom - windowRect.top, TRUE);
 	SetWindowText(m_hwnd, title);
 }

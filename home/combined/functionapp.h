@@ -89,6 +89,7 @@ namespace fnc
 		void Ev_MMouseButton(LPARAM lparam);
 		void Ev_RMouseButton(HWND hwnd, LPARAM lparam);
 		void Ev_MouseMove(HWND hwnd, WPARAM wparam, LPARAM lparam);
+		void Ev_Size(HWND hwnd);
 
 	public:
 		FunctionApp(HWND hwnd);

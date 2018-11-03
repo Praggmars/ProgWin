@@ -22,33 +22,37 @@
     <ClCompile Include="appbase.cpp" />
     <ClCompile Include="danceapp.cpp" />
     <ClCompile Include="fractalapp.cpp" />
-    <ClCompile Include="function.cpp" />
-    <ClCompile Include="gameoflife.cpp" />
+    <ClCompile Include="functionapp.cpp" />
+    <ClCompile Include="gameoflifeapp.cpp" />
     <ClCompile Include="juliaapp.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="mandelbrotapp.cpp" />
+    <ClCompile Include="mth_linalg.cpp" />
     <ClCompile Include="multableapp.cpp" />
     <ClCompile Include="newtonapp.cpp" />
     <ClCompile Include="rippleapp.cpp" />
     <ClCompile Include="sandpileapp.cpp" />
     <ClCompile Include="spheresapp.cpp" />
     <ClCompile Include="strf_stringfunction.cpp" />
+    <ClCompile Include="sudokuapp.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="appbase.h" />
     <ClInclude Include="danceapp.h" />
     <ClInclude Include="fractalapp.h" />
-    <ClInclude Include="function.h" />
-    <ClInclude Include="gameoflife.h" />
+    <ClInclude Include="functionapp.h" />
+    <ClInclude Include="gameoflifeapp.h" />
     <ClInclude Include="juliaapp.h" />
     <ClInclude Include="linalg.h" />
     <ClInclude Include="mandelbrotapp.h" />
+    <ClInclude Include="mth_linalg.h" />
     <ClInclude Include="multableapp.h" />
     <ClInclude Include="newtonapp.h" />
     <ClInclude Include="rippleapp.h" />
     <ClInclude Include="sandpileapp.h" />
     <ClInclude Include="spheresapp.h" />
     <ClInclude Include="strf_stringfunction.h" />
+    <ClInclude Include="sudokuapp.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
@@ -104,23 +108,23 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(ProjectDir.Replace($(SolutionDir),$(SolutionDir)Bin\))</OutDir>
-    <IntDir>$(ProjectDir.Replace($(SolutionDir),$(SolutionDir)Build\))</IntDir>
+    <OutDir>$(ProjectDir.Replace($(SolutionDir),$(SolutionDir)Bin\$(Platform)\$(Configuration)\))</OutDir>
+    <IntDir>$(ProjectDir.Replace($(SolutionDir),$(SolutionDir)Build\$(Platform)\$(Configuration)\))</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(ProjectDir.Replace($(SolutionDir),$(SolutionDir)Bin\))</OutDir>
-    <IntDir>$(ProjectDir.Replace($(SolutionDir),$(SolutionDir)Build\))</IntDir>
+    <OutDir>$(ProjectDir.Replace($(SolutionDir),$(SolutionDir)Bin\$(Platform)\$(Configuration)\))</OutDir>
+    <IntDir>$(ProjectDir.Replace($(SolutionDir),$(SolutionDir)Build\$(Platform)\$(Configuration)\))</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(ProjectDir.Replace($(SolutionDir),$(SolutionDir)Bin\))</OutDir>
-    <IntDir>$(ProjectDir.Replace($(SolutionDir),$(SolutionDir)Build\))</IntDir>
+    <OutDir>$(ProjectDir.Replace($(SolutionDir),$(SolutionDir)Bin\$(Platform)\$(Configuration)\))</OutDir>
+    <IntDir>$(ProjectDir.Replace($(SolutionDir),$(SolutionDir)Build\$(Platform)\$(Configuration)\))</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(ProjectDir.Replace($(SolutionDir),$(SolutionDir)Bin\))</OutDir>
-    <IntDir>$(ProjectDir.Replace($(SolutionDir),$(SolutionDir)Build\))</IntDir>
+    <OutDir>$(ProjectDir.Replace($(SolutionDir),$(SolutionDir)Bin\$(Platform)\$(Configuration)\))</OutDir>
+    <IntDir>$(ProjectDir.Replace($(SolutionDir),$(SolutionDir)Build\$(Platform)\$(Configuration)\))</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
