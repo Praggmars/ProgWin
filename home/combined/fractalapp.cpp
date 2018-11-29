@@ -28,10 +28,10 @@ namespace frac
 			int y = Y(m_vertices[i](1), rect.bottom);
 			Ellipse(hdc, x - (m_vertexSize / 2), y - (m_vertexSize / 2), x + (m_vertexSize / 2), y + (m_vertexSize / 2));
 		}
-		for (size_t i = 0; i < m_dots.size(); i++)
+		for (auto& d : m_dots)
 		{
-			int x = X(m_dots[i](0), rect.right);
-			int y = Y(m_dots[i](1), rect.bottom);
+			int x = X(d(0), rect.right);
+			int y = Y(d(1), rect.bottom);
 			Ellipse(hdc, x - (m_dotSize / 2), y - (m_dotSize / 2), x + (m_dotSize / 2), y + (m_dotSize / 2));
 		}
 		EndPaint(m_hwnd, &ps);

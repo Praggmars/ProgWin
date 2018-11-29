@@ -2,13 +2,14 @@
 #include "appbase.h"
 #include "linalg.h"
 #include <vector>
+#include <list>
 
 namespace frac
 {
 	class FractalApp :public AppBase
 	{
 		std::vector<linalg::Vector<double, 2>> m_vertices;
-		std::vector<linalg::Vector<double, 2>> m_dots;
+		std::list<linalg::Vector<double, 2>> m_dots;
 		linalg::Vector<double, 2> m_prevDot;
 		int m_dotSize;
 		int m_vertexSize;

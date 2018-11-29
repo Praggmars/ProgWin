@@ -6,6 +6,8 @@
 #define ID_CLEAR_BUTTON 3
 #define ID_CREATE_BUTTON 4
 
+#define MAX_SOLUTION_SEARCH 0
+
 namespace sdk
 {
 	class SudokuSolver
@@ -188,41 +190,47 @@ namespace sdk
 			m_solvable = other.m_solvable;
 			m_changed = other.m_changed;
 		}
-		bool SolveSudoku()
+		int SolveSudoku()
 		{
 			if (!m_solvable)
-				return false;
+				return 0;
 			while (m_emptyCellCount != 0)
 			{
 				m_changed = false;
 				for (SudokuCell& cell : m_grid)
 					if (!cell.Filled())
 						if (!cell.Check())
-							return false;
+							return 0;
 				if (!m_changed)
 					return TryAgain();
 			}
-			return true;
+			return 1;
 		}
-		bool TryAgain()
+		int TryAgain()
 		{
+			int solutions = 0;
 			int index = SearchBestChance();
 			if (index < 0)
-				return false;
+				return 0;
 			SudokuSolver save(*this);
 			for (int value = 1; value < 10; value++)
 			{
 				if (!save.m_grid[index].isExcluded(value - 1))
 				{
 					m_grid[index].GiveValue(value);
-					if (SolveSudoku())
-						return true;
+					int newSolutions = SolveSudoku();
+					if (newSolutions)
+					{
+						solutions += newSolutions;
+						if (solutions > MAX_SOLUTION_SEARCH)
+							return solutions;
+					}
 					if (!save.m_grid[index].ExcludeValue(value))
-						return false;
+						return solutions;
 					CopyDataFrom(save);
 				}
 			}
-			return false;
+			return solutions;
 		}
 		int SearchBestChance() {
 			int best = -1;
@@ -239,18 +247,18 @@ namespace sdk
 		}
 
 	public:
-		static bool Solve(Sudoku& sudoku)
+		static int Solve(Sudoku& sudoku)
 		{
 			SudokuSolver solver(sudoku);
-			if (solver.SolveSudoku())
+			int solutions = solver.SolveSudoku();
+			if (solutions)
 			{
 				for (int y = 0; y < 9; y++)
 					for (int x = 0; x < 9; x++)
 						if (!sudoku.getNumber(x, y))
 							sudoku.setNumber(x, y, solver.m_grid[x + 9 * y].getValue());
-				return true;
 			}
-			return false;
+			return solutions;
 		}
 	};
 
@@ -281,7 +289,7 @@ namespace sdk
 			{
 				if (m_sudoku.getNumber(x, y))
 				{
-					SetTextColor(hdc, m_sudoku.isClue(x, y) ? RGB(0xff, 0xff, 0xff) : RGB(0x3f, 0x3f, 0xff));
+					SetTextColor(hdc, m_sudoku.isClue(x, y) ? RGB(0xff, 0xff, 0xff) : RGB(0x3f, 0x5f, 0xff));
 					WCHAR ch = (WCHAR)m_sudoku.getNumber(x, y) + '0';
 					TextOut(hdc, x * size / 9 + size / 36, y * size / 9, &ch, 1);
 				}
@@ -317,14 +325,23 @@ namespace sdk
 		MoveWindow(m_restartButton, size + 10, 40, 80, 24, FALSE);
 		MoveWindow(m_clearButton, size + 10, 70, 80, 24, FALSE);
 		MoveWindow(m_createButton, size + 10, 100, 80, 24, FALSE);
+		MoveWindow(m_solutionLabel, size + 10, 130, 80, 36, FALSE);
 	}
 	void SudokuApp::CommandEvent(WPARAM cmd)
 	{
+		ShowWindow(m_solutionLabel, FALSE);
 		switch (cmd)
 		{
 		case ID_SOLVE_BUTTON:
-			SudokuSolver::Solve(m_sudoku);
-			break;
+		{
+			int solutions = SudokuSolver::Solve(m_sudoku);
+			if (solutions > MAX_SOLUTION_SEARCH)
+				SetWindowText(m_solutionLabel, (L"Solutions\nover " + std::to_wstring(MAX_SOLUTION_SEARCH)).c_str());
+			else
+				SetWindowText(m_solutionLabel, (L"Solutions\n" + std::to_wstring(solutions)).c_str());
+			ShowWindow(m_solutionLabel, TRUE);
+		}
+		break;
 		case ID_RESTART_BUTTON:
 			for (int y = 0; y < 9; y++)
 				for (int x = 0; x < 9; x++)
@@ -345,27 +362,25 @@ namespace sdk
 		InvalidateRect(m_hwnd, NULL, TRUE);
 		SetFocus(m_hwnd);
 	}
-	void SudokuApp::ClickEvent(int x, int y)
+	void SudokuApp::LButtonDownEvent(int x, int y)
 	{
 		RECT rect;
 		GetClientRect(m_hwnd, &rect);
 		int size = min(rect.bottom, rect.right - 100);
 		x /= size / 9;
 		y /= size / 9;
-		if (x >= 0 && x < 9 && y >= 0 && y < 9)
+		if (x >= 0 && x < 9 && y >= 0 && y < 9 &&
+			!(m_selectedCell.x == x && m_selectedCell.y == y))
 		{
-			if (m_selectedCell.x == x && m_selectedCell.y == y)
-			{
-				m_selectedCell.x = -1;
-				m_selectedCell.y = -1;
-			}
-			else
-			{
-				m_selectedCell.x = x;
-				m_selectedCell.y = y;
-			}
-			InvalidateRect(m_hwnd, NULL, TRUE);
+			m_selectedCell.x = x;
+			m_selectedCell.y = y;
 		}
+		else
+		{
+			m_selectedCell.x = -1;
+			m_selectedCell.y = -1;
+		}
+		InvalidateRect(m_hwnd, NULL, TRUE);
 	}
 	void SudokuApp::CharEvent(WPARAM keyCode)
 	{
@@ -375,7 +390,7 @@ namespace sdk
 			{
 				if (m_creating)
 					m_sudoku.setNumberClue(m_selectedCell.x, m_selectedCell.y, keyCode - '0');
-				else
+				else if (!m_sudoku.isClue(m_selectedCell.x, m_selectedCell.y))
 					m_sudoku.setNumber(m_selectedCell.x, m_selectedCell.y, keyCode - '0');
 				InvalidateRect(m_hwnd, NULL, TRUE);
 			}
@@ -471,6 +486,8 @@ namespace sdk
 			size + 10, 70, 80, 24, hwnd, (HMENU)ID_CLEAR_BUTTON, GetModuleHandle(NULL), NULL);
 		m_createButton = CreateWindowEx(WS_EX_CLIENTEDGE, L"button", L"Create", WS_VISIBLE | WS_CHILD | WS_BORDER,
 			size + 10, 100, 80, 24, hwnd, (HMENU)ID_CREATE_BUTTON, GetModuleHandle(NULL), NULL);
+		m_solutionLabel = CreateWindowEx(WS_EX_CLIENTEDGE, L"static", L"Solutions\n", WS_CHILD | SS_CENTER,
+			size + 10, 130, 80, 36, hwnd, NULL, GetModuleHandle(NULL), NULL);
 
 		m_selectedCell.x = -1;
 		m_selectedCell.y = -1;
@@ -487,6 +504,7 @@ namespace sdk
 		DestroyWindow(m_restartButton);
 		DestroyWindow(m_clearButton);
 		DestroyWindow(m_createButton);
+		DestroyWindow(m_solutionLabel);
 	}
 	void SudokuApp::MessageHandler(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam)
 	{
@@ -501,8 +519,8 @@ namespace sdk
 		case WM_SIZE:
 			ResizeEvent();
 			break;
-		case WM_LBUTTONUP:
-			ClickEvent(LOWORD(lparam), HIWORD(lparam));
+		case WM_LBUTTONDOWN:
+			LButtonDownEvent(LOWORD(lparam), HIWORD(lparam));
 			break;
 		case WM_CHAR:
 			CharEvent(wparam);

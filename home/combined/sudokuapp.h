@@ -37,6 +37,7 @@ namespace sdk
 		HWND m_restartButton;
 		HWND m_clearButton;
 		HWND m_createButton;
+		HWND m_solutionLabel;
 
 	private:
 		void DrawGrid(HDC hdc, int size);
@@ -44,7 +45,7 @@ namespace sdk
 		void Paint();
 		void ResizeEvent();
 		void CommandEvent(WPARAM cmd);
-		void ClickEvent(int x, int y);
+		void LButtonDownEvent(int x, int y);
 		void CharEvent(WPARAM keyCode);
 		void KeyDownEvent(WPARAM keyCode);
 

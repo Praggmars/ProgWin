@@ -20,11 +20,10 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{DFA644C8-C841-4C92-A31B-0DE8D81CB297}</ProjectGuid>
+    <ProjectGuid>{09BABC09-8DD4-4C06-AD20-C38055F507DD}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>ora1</RootNamespace>
+    <RootNamespace>template</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.17134.0</WindowsTargetPlatformVersion>
-    <ProjectName>class01_window</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -73,22 +72,22 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(ProjectDir.Replace($(SolutionDir),$(SolutionDir)Bin\$(Platform)\$(Configuration)\))</OutDir>
+    <OutDir>$(ProjectDir.Replace($(SolutionDir),$(SolutionDir)Build\$(Platform)\$(Configuration)\))</OutDir>
     <IntDir>$(ProjectDir.Replace($(SolutionDir),$(SolutionDir)Build\$(Platform)\$(Configuration)\))</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>$(ProjectDir.Replace($(SolutionDir),$(SolutionDir)Bin\$(Platform)\$(Configuration)\))</OutDir>
+    <OutDir>$(ProjectDir.Replace($(SolutionDir),$(SolutionDir)Build\$(Platform)\$(Configuration)\))</OutDir>
     <IntDir>$(ProjectDir.Replace($(SolutionDir),$(SolutionDir)Build\$(Platform)\$(Configuration)\))</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(ProjectDir.Replace($(SolutionDir),$(SolutionDir)Bin\$(Platform)\$(Configuration)\))</OutDir>
+    <OutDir>$(ProjectDir.Replace($(SolutionDir),$(SolutionDir)Build\$(Platform)\$(Configuration)\))</OutDir>
     <IntDir>$(ProjectDir.Replace($(SolutionDir),$(SolutionDir)Build\$(Platform)\$(Configuration)\))</IntDir>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>$(ProjectDir.Replace($(SolutionDir),$(SolutionDir)Bin\$(Platform)\$(Configuration)\))</OutDir>
+    <OutDir>$(ProjectDir.Replace($(SolutionDir),$(SolutionDir)Build\$(Platform)\$(Configuration)\))</OutDir>
     <IntDir>$(ProjectDir.Replace($(SolutionDir),$(SolutionDir)Build\$(Platform)\$(Configuration)\))</IntDir>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -152,7 +151,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="main.c" />
+    <ClCompile Include="novexam.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="resource.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="exam.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
